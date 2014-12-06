@@ -2,4 +2,16 @@
 
 ## install 
 
-npm -i untung
+```
+npm -i -g untung
+```
+
+## usage
+
+```
+$ untung
+```
+
+## license
+
+MIT

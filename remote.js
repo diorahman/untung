@@ -85,19 +85,17 @@ internals.getDiff = function(options, cb) {
   var _ = internals;
   async.mapSeries(list, internals.isBuildSuccess, function(err, result){ 
     if (err)
-        return;
+        return cb(err);
       var indexes = _.getLatestTwoSuccessBuilds(result);
       var newIndex = list[indexes[0]];
       var olderIndex = list[indexes[1]];
 
-      console.log('the latest two successful builds: ', olderIndex, 'and', newIndex);
+      console.log('the latest **', options.name, '** two successful builds: ', olderIndex, 'and', newIndex);
       console.log('diff(', newIndex, ',', olderIndex, ') ->');
 
       var newerList = rootUrl + '/' + list[indexes[0]] + options.name + '.list';
       var olderList = rootUrl + '/' + list[indexes[1]] + options.name + '.list';
-      _.getDelta([newerList, olderList], function(err, delta) {
-        console.log (JSON.stringify(delta, null, 2));
-      });
+      _.getDelta([newerList, olderList], cb);
     });
   });
 }
@@ -117,6 +115,15 @@ module.exports = function() {
         console.log('please wait, we have more...');
       });
     }
-    _.getDiff({name : 'tambora-desktop-amd64'});
+    _.getDiff({name : 'tambora-desktop-amd64'}, function(err, delta){
+      console.log(JSON.stringify(delta, null, 2));
+      console.log('');
+      console.log('even more...');
+      _.getDiff({name : 'tambora-desktop-i386'}, function(err, delta){
+        console.log(JSON.stringify(delta, null, 2));
+        console.log('');
+        console.log('fin <3!');
+      });
+    });
   })
 }

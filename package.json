@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "diff two latest successful builds from http://cdimage.blankonlinux.or.id/blankon/livedvd-harian",
   "main": "index.js",
+  "bin": {
+    "untung": "bin/untung.js"
+  },
+  "keywords": ["untung", "blankon", "livedvd-harian"],
   "scripts": {
     "test": "make test"
   },
